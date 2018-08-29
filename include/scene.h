@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 15:45:59 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/28 18:56:35 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/08/29 17:06:33 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 typedef struct	s_scene
 {
-	t_list	*objects;
-	t_list	*lights;
-	t_list	*cameras;
+	t_sphere	*sphere;
+	t_camera	*camera;
+	// t_light		light;
 }				t_scene;
 
 #endif

@@ -6,13 +6,13 @@
 #    By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/28 18:23:53 by ccliffor          #+#    #+#              #
-#    Updated: 2018/08/28 18:51:36 by ccliffor         ###   ########.fr        #
+#    Updated: 2018/08/29 17:37:35 by ccliffor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Program #
 NAME = rtv1
-SRC_FILES = main.c
+SRC_FILES = main.c init.c input.c
 SRC_DIR = src
 SRCS = $(SRC_FILES:%=$(SRC_DIR)/%)
 SDL2_CONFIG = SDL2/bin/sdl2-config
@@ -42,7 +42,7 @@ COLOR_RED = \033[01;31m
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIB3D) $(SDL2_CONFIG) $(SRCS) $(HEADERS)
-	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(shell ./$(SDL_CONFIG) --cflags --libs)
+	@$(CC) $(CFLAGS) $(SRCS) -o $@ $(shell ./$(SDL2_CONFIG) --cflags --libs)
 	@echo "$(COLOR_CYAN)$(NAME)\t\t$(COLOR_GREEN)Binary compiled$(COLOR_CLEAR)"
 
 $(LIB3D):
