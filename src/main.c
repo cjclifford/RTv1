@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 17:51:52 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/29 18:26:38 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/08/31 10:03:04 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,18 @@ int	main(void)
 	t_key		*keys;
 	int			quit;
 
-	scene = init_scene();
 	window = init_window();
+	scene = init_scene(window);
 	keys = init_input();
 	// TODO:
 	// load scene from file
 	quit = 0;
 	while (!quit)
 	{
-		handle_input(keys);
- 		// update state
-		// render state
+		quit = handle_input(keys);
+		update_scene(scene, keys);
+		render_scene(scene, window);
 	}
-	SDL_Delay(3000);
 	SDL_DestroyWindow(window->window);
 	SDL_Quit();
 	return (0);

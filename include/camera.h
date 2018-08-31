@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 15:48:45 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/29 18:35:56 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/08/30 15:53:09 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ typedef struct	s_camera
 {
 	t_vec3	pos;
 	t_vec3	dir;
+	double	inverse_width;
+	double	inverse_height;
 	double	aspect_ratio;
+	double	angle;
 }				t_camera;
 
 #endif

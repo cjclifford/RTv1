@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:32:02 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/29 18:08:25 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:55:27 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ typedef struct	s_key
 	int		key_right;
 }				t_key;
 
-void	handle_input(t_key *keys);
+int				handle_input(t_key *keys);
 
 #endif

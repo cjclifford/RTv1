@@ -6,14 +6,14 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:27:14 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/29 18:15:08 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:27:07 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include "SDL.h"
 
-void	handle_input(t_key *keys)
+int	handle_input(t_key *keys)
 {
 	SDL_Event	e;
 
@@ -21,11 +21,11 @@ void	handle_input(t_key *keys)
 	while (SDL_PollEvent(&e))
 	{
 		if (e.type == SDL_QUIT)
-			exit(0);
+			return (1);
 		else if (e.type == SDL_KEYDOWN)
 		{
 			if (e.key.keysym.sym == SDLK_ESCAPE)
-				exit(0);
+				return (1);
 			else if (e.key.keysym.sym == SDLK_w)
 				keys->key_w = 1;
 			else if (e.key.keysym.sym == SDLK_s)
@@ -63,4 +63,5 @@ void	handle_input(t_key *keys)
 				keys->key_right = 0;
 		}
 	}
+	return (0);
 }

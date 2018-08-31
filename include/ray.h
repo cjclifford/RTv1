@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scene.h                                            :+:      :+:    :+:   */
+/*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/28 15:45:59 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/31 10:37:43 by ccliffor         ###   ########.fr       */
+/*   Created: 2018/08/30 12:56:15 by ccliffor          #+#    #+#             */
+/*   Updated: 2018/08/30 16:10:24 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCENE_H
-# define SCENE_H
+#ifndef RAY_H
+# define RAY_H
 
-# include "object.h"
-# include "light.h"
-# include "camera.h"
-# include "window.h"
-# include "input.h"
+# include "scene.h"
 
-# include "../libft/libft.h"
+# include "../lib3d/include/vec3.h"
 
-# define FOV 90.0
-
-typedef struct	s_scene
+typedef struct	s_ray
 {
-	t_sphere		*sphere;
-	t_camera		*camera;
-	// t_light			*light;
-	SDL_Renderer	*renderer;
-}				t_scene;
+	t_vec3	dir;
+}				t_ray;
 
-void			render_scene(t_scene *scene, t_window *window);
-void			update_scene(t_scene *scene, t_key *keys);
+void			set_ray(int x, int y, t_camera *camera, t_ray *ray);
+int				intersect(t_camera *camera, t_ray *ray, t_sphere *sphere, double collision[2]);
 
 #endif
