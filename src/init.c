@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 16:50:32 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/31 10:41:35 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/08/31 14:09:43 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,24 @@ t_window	*init_window(void)
 
 t_scene		*init_scene(t_window *window)
 {
-	t_scene	*scene;
+	t_scene		*scene;
+	t_sphere	*sphere;
 
 	scene = (t_scene *)malloc(sizeof(t_scene)); // return error if allocation fails
-	scene->sphere = (t_sphere *)malloc(sizeof(t_sphere)); // return error if allocation fails
-	scene->sphere->pos.x = 0;
-	scene->sphere->pos.y = 0;
-	scene->sphere->pos.z = 10;
-	scene->sphere->radius = 1;
-	scene->sphere->colour.a = 255;
-	scene->sphere->colour.r = 255;
-	scene->sphere->colour.g = 0;
-	scene->sphere->colour.b = 255;
-	scene->sphere->radius2 = scene->sphere->radius * scene->sphere->radius;
+
+	sphere = (t_sphere *)malloc(sizeof(t_sphere)); // return error if allocation fails
+	sphere->pos = (t_vec3){0, 0, 10};
+	sphere->colour = (SDL_Colour){255, 0, 255, 255};
+	sphere->radius = 1;
+	sphere->radius2 = sphere->radius * sphere->radius;
+	scene->spheres = ft_lstnew(sphere, sizeof(t_sphere));
+
+	sphere->pos = (t_vec3){5, 0, 10};
+	sphere->colour = (SDL_Colour){255, 255, 0, 255};
+	sphere->radius = 2;
+	sphere->radius2 = sphere->radius * sphere->radius;
+	ft_lstadd(&scene->spheres, ft_lstnew(sphere, sizeof(t_sphere)));
+
 	scene->camera = (t_camera *)malloc(sizeof(t_camera)); // return error if allocation fails
 	scene->camera->pos.x = 0;
 	scene->camera->pos.y = 0;
@@ -65,6 +70,7 @@ t_scene		*init_scene(t_window *window)
 	scene->camera->angle = tan(FOV * scene->camera->aspect_ratio * M_PI / 180);
 	scene->camera->inverse_width = 1.0 / window->width;
 	scene->camera->inverse_height = 1.0 / window->height;
+	
 	scene->renderer = SDL_CreateRenderer(window->window, -1, 0);
 	return (scene);
 }

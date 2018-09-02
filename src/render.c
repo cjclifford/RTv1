@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:37:58 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/31 10:06:02 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/02 14:53:07 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ void	render_scene(t_scene *scene, t_window *window)
 	int		y;
 	int		hit;
 	double	collisions[2];
+	double	distance;
 	t_ray	*primary_ray;
 	t_ray	*shadow_ray;
+	t_list	*tmp_list;
+	t_sphere	*smallest;
+	t_sphere	*tmp_sphere;
 
 	SDL_SetRenderDrawColor(scene->renderer, 0, 0, 0, 255);
 	SDL_RenderClear(scene->renderer);
@@ -43,10 +47,19 @@ void	render_scene(t_scene *scene, t_window *window)
 			// while primary ray length is less than max distance
 			//	for all objects in scene
 			//		if ray intersects object
-			if (intersect(scene->camera, primary_ray, scene->sphere, collisions))
+			tmp_list = scene->spheres;
+			distance = INFINITY;
+			while (tmp_list)
 			{
-				//	if distance to object is smaller than smallest known distance set as smallest
-				hit = 1;
+				tmp_sphere = tmp_list->content;
+				if (intersect(scene->camera, primary_ray, tmp_sphere, collisions))
+				{
+					//	if distance to object is smaller than smallest known distance set as smallest
+					if (collisions[0] < distance)
+						smallest = tmp_sphere;
+					hit = 1;
+				}
+				tmp_list = tmp_list->next;
 			}
 			//	if an object was hit
 			if (hit)
@@ -57,7 +70,7 @@ void	render_scene(t_scene *scene, t_window *window)
 				//				color pixel black
 				//			else
 				//				color pixel object's color
-				SDL_SetRenderDrawColor(scene->renderer, scene->sphere->colour.r, scene->sphere->colour.g, scene->sphere->colour.b, scene->sphere->colour.a);
+				SDL_SetRenderDrawColor(scene->renderer, smallest->colour.r, smallest->colour.g, smallest->colour.b, 255);
 				SDL_RenderDrawPoint(scene->renderer, x, y);
 			}
 			x++;
