@@ -6,13 +6,13 @@
 #    By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/28 18:23:53 by ccliffor          #+#    #+#              #
-#    Updated: 2018/08/31 11:02:30 by ccliffor         ###   ########.fr        #
+#    Updated: 2018/09/03 16:54:17 by ccliffor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Program #
 NAME = RTv1
-SRC_FILES = main.c init.c input.c ray.c render.c update.c
+SRC_FILES = main.c init.c input.c ray.c render.c update.c read.c
 SRC_DIR = src
 SRCS = $(SRC_FILES:%=$(SRC_DIR)/%)
 SDL2_CONFIG = SDL2/bin/sdl2-config

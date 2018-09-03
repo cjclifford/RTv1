@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 15:45:59 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/31 12:10:56 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/03 16:18:29 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 
 typedef struct	s_scene
 {
-	t_list		*spheres;
+	t_list			*spheres;
 	t_camera		*camera;
-	// t_light			*light;
+	t_light			*light;
 	SDL_Renderer	*renderer;
 }				t_scene;
 
 void			render_scene(t_scene *scene, t_window *window);
 void			update_scene(t_scene *scene, t_key *keys);
+void			read_scene(char *path, t_scene *scene);
 
 #endif

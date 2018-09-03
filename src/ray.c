@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 13:01:04 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/02 14:52:14 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/03 17:04:36 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	set_ray(int x, int y, t_camera *camera, t_ray *ray)
 	vec3_normalize(&ray->dir);
 }
 
-int		intersect(t_camera *camera, t_ray *ray, t_sphere *sphere, double collision[2])
+int		intersect(t_camera *camera, t_ray *ray, t_sphere *sphere)
 {
 	double		y;
 	double		x;
@@ -32,12 +32,11 @@ int		intersect(t_camera *camera, t_ray *ray, t_sphere *sphere, double collision[
 	d = fabs(vec3_dot(vec3_subtract(sphere->pos, camera->pos), ray->dir));
 	p = vec3_add(camera->pos, vec3_multiply(ray->dir, d));
 	y = vec3_length(vec3_subtract(sphere->pos, p));
-	// printf("%f\n", y);
 	if (y < sphere->radius)
 	{
-		x = 0;// sqrt(sphere->radius2 - y * y);
-		collision[0] = 0;// d + x;
-		collision[1] = 0;// d - x;
+		x = sqrt(sphere->radius2 - y * y);
+		ray->collision[0] = d + x;
+		ray->collision[1] = d - x;
 		return (1);
 	}
 	return (0);
