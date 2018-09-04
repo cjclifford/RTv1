@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:37:58 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/04 17:39:27 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 17:44:38 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,15 @@ void	render_scene(t_scene *scene, t_window *window)
 					shadow_ray->dir = vec3_subtract(light->pos, vec3_multiply(primary_ray->dir, primary_ray->intersect));
 					//		for all objects in scene
 					i = 0;
-					// while ((sphere = (t_sphere *)vec_get(&scene->spheres, i++)))
+					// while (i < (int)scene->spheres.length)
 					// {
-					// 	if (intersect(vec3_multiply(primary_ray->dir, primary_ray->intersect), shadow_ray, sphere))
+					// 	if (intersect(scene, shadow_ray, i))
 					// 		SDL_SetRenderDrawColor(scene->renderer, 0, 0, 0, 255);
 					// 	else
 					// 		SDL_SetRenderDrawColor(scene->renderer, smallest->colour.r, smallest->colour.g, smallest->colour.b, 255);
+					// 	i++;
 					// }
-					SDL_SetRenderDrawColor(scene->renderer, smallest->colour.r, smallest->colour.g, smallest->colour.b, 255);
+					// SDL_SetRenderDrawColor(scene->renderer, smallest->colour.r, smallest->colour.g, smallest->colour.b, 255);
 					SDL_RenderDrawPoint(scene->renderer, x, y);
 				}
 			}
