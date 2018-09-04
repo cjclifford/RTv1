@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 15:45:59 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/03 16:18:29 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 15:52:35 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 # include "window.h"
 # include "input.h"
 
-# include "../libft/libft.h"
+# include "../libft/includes/libft.h"
+# include "../libft/includes/vec.h"
 
 # define FOV 90.0
 
 typedef struct	s_scene
 {
-	t_list			*spheres;
-	t_camera		*camera;
-	t_light			*light;
+	t_vec			spheres;
+	t_vec			lights;
+	t_camera		camera;
 	SDL_Renderer	*renderer;
 }				t_scene;
 

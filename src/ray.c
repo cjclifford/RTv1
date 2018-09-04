@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 13:01:04 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/03 17:04:36 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 17:36:44 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,24 @@ void	set_ray(int x, int y, t_camera *camera, t_ray *ray)
 	vec3_normalize(&ray->dir);
 }
 
-int		intersect(t_camera *camera, t_ray *ray, t_sphere *sphere)
+int		intersect(t_scene *scene, t_ray *ray, int i)
 {
 	double		y;
 	double		x;
 	double		d;
 	t_vec3		p;
+	t_sphere	*sphere;
 
-	d = fabs(vec3_dot(vec3_subtract(sphere->pos, camera->pos), ray->dir));
-	p = vec3_add(camera->pos, vec3_multiply(ray->dir, d));
+	sphere = vec_get(&scene->spheres, i);
+	d = fabs(vec3_dot(vec3_subtract(sphere->pos, scene->camera.pos), ray->dir));
+	p = vec3_add(scene->camera.pos, vec3_multiply(ray->dir, d));
 	y = vec3_length(vec3_subtract(sphere->pos, p));
 	if (y < sphere->radius)
 	{
 		x = sqrt(sphere->radius2 - y * y);
-		ray->collision[0] = d + x;
-		ray->collision[1] = d - x;
+		ray->intersect = MIN(d + x, d - x);
+		if (ray->intersect < 0)
+			ray->intersect = MAX(d + x, d - x);
 		return (1);
 	}
 	return (0);

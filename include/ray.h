@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 12:56:15 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/03 17:06:51 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 17:36:38 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "scene.h"
 
-# include "../lib3d/include/vec3.h"
+# include "../lib3d/includes/vec3.h"
 
 typedef struct	s_ray
 {
 	t_vec3	dir;
-	double	collision[2];
+	double	intersect;
 }				t_ray;
 
 void			set_ray(int x, int y, t_camera *camera, t_ray *ray);
-int				intersect(t_camera *camera, t_ray *ray, t_sphere *sphere);
+int				intersect(t_scene *scene, t_ray *ray, int i);
 
 #endif

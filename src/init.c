@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 16:50:32 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/03 15:30:59 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 15:56:58 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,20 @@ t_window	*init_window(void)
 
 t_scene		*init_scene(t_window *window, char *path)
 {
+	int			i;
 	t_scene		*scene;
 	t_sphere	*sphere;
-	t_list		*tmp_list;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
-	ft_bzero(scene, sizeof(scene));
+	ft_bzero(scene, sizeof(t_scene));
 	read_scene(path, scene);
-	scene->camera->aspect_ratio = window->width / (float)window->height;
-	scene->camera->angle = tan(FOV * scene->camera->aspect_ratio * M_PI / 180);
-	scene->camera->inverse_width = 1.0 / window->width;
-	scene->camera->inverse_height = 1.0 / window->height;
-	tmp_list = scene->spheres;
-	while (tmp_list)
-	{
-		sphere = tmp_list->content;
+	scene->camera.aspect_ratio = window->width / (float)window->height;
+	scene->camera.angle = tan(FOV * scene->camera.aspect_ratio * M_PI / 180);
+	scene->camera.inverse_width = 1.0 / window->width;
+	scene->camera.inverse_height = 1.0 / window->height;
+	i = 0;
+	while ((sphere = (t_sphere *)vec_get(&scene->spheres, i++)))
 		sphere->radius2 = sphere->radius * sphere->radius;
-		tmp_list = tmp_list->next;
-	}
 	scene->renderer = SDL_CreateRenderer(window->window, -1, 0);
 	return (scene);
 }

@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 11:08:02 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/03 16:20:34 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 15:56:23 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,23 @@ static void	read_camera(int fd, t_scene *scene)
 {
 	char		*line;
 	char		**list;
-	t_camera	*camera;
+	t_camera	camera;
 
 	// TODO:
 	// Error handling
-	camera = (t_camera *)malloc(sizeof(t_camera));
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		camera->pos.x = ft_atoi(list[0]);
-		camera->pos.y = ft_atoi(list[1]);
-		camera->pos.z = ft_atoi(list[2]);
+		camera.pos.x = ft_atoi(list[0]);
+		camera.pos.y = ft_atoi(list[1]);
+		camera.pos.z = ft_atoi(list[2]);
 	}
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		camera->dir.x = ft_atoi(list[0]);
-		camera->dir.y = ft_atoi(list[1]);
-		camera->dir.z = ft_atoi(list[2]);
+		camera.dir.x = ft_atoi(list[0]);
+		camera.dir.y = ft_atoi(list[1]);
+		camera.dir.z = ft_atoi(list[2]);
 	}
 	scene->camera = camera;
 }
@@ -63,10 +62,9 @@ static void	read_sphere(int fd, t_scene *scene)
 		sphere->colour.b = ft_atoi(list[2]);
 		sphere->colour.a = ft_atoi(list[3]);
 	}
-	if (!scene->spheres)
-		scene->spheres = ft_lstnew(sphere, sizeof(t_sphere));
-	else
-		ft_lstadd(&scene->spheres, ft_lstnew(sphere, sizeof(t_sphere)));
+	if (!scene->spheres.length)
+		vec_init(&scene->spheres, sizeof(t_sphere), 1);
+	vec_append(&scene->spheres, sphere);
 }
 
 static void	read_light(int fd, t_scene *scene)
@@ -83,7 +81,9 @@ static void	read_light(int fd, t_scene *scene)
 		light->pos.y = ft_atoi(list[0]);
 		light->pos.z = ft_atoi(list[0]);
 	}
-	scene->light = light;
+	if (!scene->lights.length)
+		vec_init(&scene->lights, sizeof(t_light), 1);
+	vec_append(&scene->lights, light);
 }
 
 void		read_scene(char *path, t_scene *scene)
@@ -91,6 +91,8 @@ void		read_scene(char *path, t_scene *scene)
 	int		fd;
 	char	*line;
 
+	// TODO:
+	// return error if file doesnt exist
 	fd = open(path, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{

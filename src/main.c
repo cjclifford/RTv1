@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 17:51:52 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/03 15:30:08 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/04 13:35:49 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "init.h"
 #include "input.h"
 
-#include "../libft/libft.h"
 #include "SDL.h"
 
 int	main(int ac, char **av)
