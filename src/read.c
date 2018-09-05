@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 11:08:02 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/04 15:56:23 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/05 11:07:30 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static void	read_light(int fd, t_scene *scene)
 	{
 		list = ft_strsplit(line, ' ');
 		light->pos.x = ft_atoi(list[0]);
-		light->pos.y = ft_atoi(list[0]);
-		light->pos.z = ft_atoi(list[0]);
+		light->pos.y = ft_atoi(list[1]);
+		light->pos.z = ft_atoi(list[2]);
 	}
 	if (!scene->lights.length)
 		vec_init(&scene->lights, sizeof(t_light), 1);

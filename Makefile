@@ -6,7 +6,7 @@
 #    By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/28 18:23:53 by ccliffor          #+#    #+#              #
-#    Updated: 2018/09/03 16:54:17 by ccliffor         ###   ########.fr        #
+#    Updated: 2018/09/05 11:08:45 by ccliffor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,3 +70,6 @@ fclean: clean
 	@echo "$(COLOR_CYAN)$(NAME)\t\t$(COLOR_RED)Binary removed$(COLOR_CLEAR)\n"
 
 re: fclean all
+
+run: re
+	./RTv1 scenes/light-test

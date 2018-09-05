@@ -2,7 +2,7 @@ CAMERA
 	0 0 0
 	0 0 1
 LIGHT
-	0 0 0
+	7 0 10
 SPHERE
 	-3 0 10
 	2
