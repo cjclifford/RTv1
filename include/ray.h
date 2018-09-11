@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 12:56:15 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/05 10:39:04 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/06 11:01:12 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_ray
 }				t_ray;
 
 void			set_ray(int x, int y, t_camera *camera, t_ray *ray);
-int				intersect(t_ray *ray, t_sphere *sphere);
+int				sph_intersect(t_ray *ray, t_sphere *sphere);
+int				pln_intersect(t_ray *ray, t_plane *plane);
 
 #endif

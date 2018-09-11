@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 13:01:04 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/05 10:38:27 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/10 12:34:06 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_ray(int x, int y, t_camera *camera, t_ray *ray)
 	vec3_normalize(&ray->dir);
 }
 
-int		intersect(t_ray *ray, t_sphere *sphere)
+int		sph_intersect(t_ray *ray, t_sphere *sphere)
 {
 	double		y;
 	double		x;
@@ -45,3 +45,20 @@ int		intersect(t_ray *ray, t_sphere *sphere)
 	}
 	return (0);
 }
+
+int		pln_intersect(t_ray *ray, t_plane *plane)
+{
+	double	den;
+
+	den = vec3_dot(plane->normal, ray->dir);
+	if (den > 1e-6)
+	{
+		ray->intersect = vec3_dot(vec3_subtract(plane->pos, ray->pos), plane->normal) / den;
+		return (ray->intersect >= 0);
+	}
+	return (0);
+}
+
+// cylinder intersect
+
+// cone intersect

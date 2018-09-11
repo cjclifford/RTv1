@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   read_scene.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/28 15:48:45 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/10 15:30:14 by ccliffor         ###   ########.fr       */
+/*   Created: 2018/09/05 15:09:32 by ccliffor          #+#    #+#             */
+/*   Updated: 2018/09/05 15:41:12 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef READ_SCENE_H
+# define READ_SCENE_H
 
-# include "../lib3d/includes/vec3.h"
+# include "scene.h"
+# include "load_entities.h"
 
-typedef struct	s_camera
-{
-	t_vec3	pos;
-	t_vec3	dir;
-	double	inverse_width;
-	double	inverse_height;
-	double	aspect_ratio;
-	double	angle;
-}				t_camera;
+void	read_scene(char *path, t_scene *scene);
 
 #endif

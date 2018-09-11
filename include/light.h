@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 17:37:54 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/04 13:35:17 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:30:20 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct	s_light
 {
+	t_type	type;
 	t_vec3	pos;
 }				t_light;
 

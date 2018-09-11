@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 18:09:26 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/04 15:57:28 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/05 13:54:17 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	update_scene(t_scene *scene, t_key *keys)
 	if (keys->key_s)
 		scene->camera.pos.z -= SPEED;
 	if (keys->key_up)
-		scene->camera.pos.y -= SPEED;
-	if (keys->key_down)
 		scene->camera.pos.y += SPEED;
+	if (keys->key_down)
+		scene->camera.pos.y -= SPEED;
 	if (keys->key_left)
-		scene->camera.pos.x += SPEED;
-	if (keys->key_right)
 		scene->camera.pos.x -= SPEED;
+	if (keys->key_right)
+		scene->camera.pos.x += SPEED;
 }

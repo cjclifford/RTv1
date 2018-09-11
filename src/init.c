@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 16:50:32 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/05 11:33:00 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:28:57 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "window.h"
 #include "input.h"
 #include "ray.h"
+#include "read_scene.h"
 
 #include "SDL.h"
 #include <math.h>
@@ -29,13 +30,14 @@ t_window	*init_window(void)
 	window->x = SDL_WINDOWPOS_CENTERED;
 	window->y = SDL_WINDOWPOS_CENTERED;
 	window->flags = SDL_WINDOW_SHOWN;
-	window->window = SDL_CreateWindow("Window",
+	if (!(window->window = SDL_CreateWindow("Window",
 		window->x,
 		window->y,
 		window->width,
 		window->height,
 		window->flags
-	); // return error if window creation fails
+	)))
+		return (NULL);
 	return (window);
 }
 
@@ -49,11 +51,11 @@ t_scene		*init_scene(t_window *window, char *path)
 	ft_bzero(scene, sizeof(t_scene));
 	read_scene(path, scene);
 	scene->camera.aspect_ratio = window->width / (float)window->height;
-	scene->camera.angle = tan(FOV * scene->camera.aspect_ratio * M_PI / 180);
+	scene->camera.angle = fabs(tan(FOV * scene->camera.aspect_ratio * M_PI / 180));
 	scene->camera.inverse_width = 1.0 / window->width;
 	scene->camera.inverse_height = 1.0 / window->height;
 	i = 0;
-	while ((sphere = (t_sphere *)vec_get(&scene->spheres, i++)))
+	while ((sphere = (t_sphere *)vec_get(&scene->objects, i++)))
 		sphere->radius2 = sphere->radius * sphere->radius;
 	scene->renderer = SDL_CreateRenderer(window->window, -1, 0);
 	return (scene);
