@@ -6,12 +6,11 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 11:08:02 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/10 15:27:41 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/12 16:06:34 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "load_entities.h"
+#include "model.h"
 
 #include "fcntl.h"
 

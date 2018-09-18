@@ -6,11 +6,11 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 15:12:42 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/10 15:31:15 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/12 18:17:52 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
+#include "model.h"
 
 #include "fcntl.h"
 
@@ -49,13 +49,13 @@ void	read_sphere(int fd, t_scene *scene)
 	char		**list;
 	t_sphere	sphere;
 
-	sphere.type = SPHERE;
+	sphere.generic.type = SPHERE;
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		sphere.pos.x = ft_atoi(list[0]);
-		sphere.pos.y = ft_atoi(list[1]);
-		sphere.pos.z = ft_atoi(list[2]);
+		sphere.generic.pos.x = ft_atoi(list[0]);
+		sphere.generic.pos.y = ft_atoi(list[1]);
+		sphere.generic.pos.z = ft_atoi(list[2]);
 		free(list);
 	}
 	free(line);
@@ -65,13 +65,14 @@ void	read_sphere(int fd, t_scene *scene)
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		sphere.colour.r = ft_atoi(list[0]);
-		sphere.colour.g = ft_atoi(list[1]);
-		sphere.colour.b = ft_atoi(list[2]);
-		sphere.colour.a = ft_atoi(list[3]);
+		sphere.generic.colour.r = ft_atoi(list[0]);
+		sphere.generic.colour.g = ft_atoi(list[1]);
+		sphere.generic.colour.b = ft_atoi(list[2]);
+		sphere.generic.colour.a = ft_atoi(list[3]);
 		free(list);
 	}
 	free(line);
+	sphere.generic.intersect = &sph_intersect;
 	vec_append(&scene->objects, &sphere);
 }
 
@@ -81,13 +82,13 @@ void	read_light(int fd, t_scene *scene)
 	char		**list;
 	t_light		light;
 
-	light.type = LIGHT;
+	light.generic.type = LIGHT;
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		light.pos.x = ft_atoi(list[0]);
-		light.pos.y = ft_atoi(list[1]);
-		light.pos.z = ft_atoi(list[2]);
+		light.generic.pos.x = ft_atoi(list[0]);
+		light.generic.pos.y = ft_atoi(list[1]);
+		light.generic.pos.z = ft_atoi(list[2]);
 		free(list);
 	}
 	free(line);
@@ -100,35 +101,36 @@ void	read_plane(int fd, t_scene *scene)
 	char	**list;
 	t_plane	plane;
 
-	plane.type = PLANE;
+	plane.generic.type = PLANE;
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		plane.pos.x = ft_atoi(list[0]);
-		plane.pos.y = ft_atoi(list[1]);
-		plane.pos.z = ft_atoi(list[2]);
+		plane.generic.pos.x = ft_atoi(list[0]);
+		plane.generic.pos.y = ft_atoi(list[1]);
+		plane.generic.pos.z = ft_atoi(list[2]);
 		free(list);
 	}
 	free(line);
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		plane.normal.x = ft_atoi(list[0]);
-		plane.normal.y = ft_atoi(list[1]);
-		plane.normal.z = ft_atoi(list[2]);
+		plane.generic.normal.x = ft_atoi(list[0]);
+		plane.generic.normal.y = ft_atoi(list[1]);
+		plane.generic.normal.z = ft_atoi(list[2]);
 		free(list);
 	}
 	free(line);
-	vec3_normalize(&plane.normal);
+	vec3_normalize(&plane.generic.normal);
 	if (get_next_line(fd, &line) > 0)
 	{
 		list = ft_strsplit(line, ' ');
-		plane.colour.r = ft_atoi(list[0]);
-		plane.colour.g = ft_atoi(list[1]);
-		plane.colour.b = ft_atoi(list[2]);
-		plane.colour.a = ft_atoi(list[3]);
+		plane.generic.colour.r = ft_atoi(list[0]);
+		plane.generic.colour.g = ft_atoi(list[1]);
+		plane.generic.colour.b = ft_atoi(list[2]);
+		plane.generic.colour.a = ft_atoi(list[3]);
 		free(list);
 	}
 	free(line);
+	plane.generic.intersect = &pln_intersect;
 	vec_append(&scene->objects, &plane);
 }

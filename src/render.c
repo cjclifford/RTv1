@@ -6,112 +6,97 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:37:58 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/10 15:33:31 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/18 14:32:43 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "window.h"
-#include "camera.h"
-#include "ray.h"
+#include "model.h"
 
 // TODO:
 //	Cones
 //	Planes
 //	Cylinders
 
-static int	render_spheres(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ray)
+static t_object	*get_nearest(t_scene *scene, t_ray *primary_ray)
 {
 	int			i;
-	int			j;
 	double		distance;
-	double		shading;
-	t_light		*light;
-	t_sphere	*nearest;
+	t_object	*nearest;
+	t_generic	*generic;
 
 	distance = INFINITY;
-	nearest = NULL;
-	i = 0;
-	while (i < (int)scene->spheres.length)
-	{
-		if (sph_intersect(primary_ray, vec_get(&scene->spheres, i)))
-		{
-			if (primary_ray->intersect < distance)
-			{
-				nearest = (t_sphere *)vec_get(&scene->spheres, i);
-				distance = primary_ray->intersect;
-			}
-		}
-		i++;
-	}
-	if (nearest)
-	{
-		j = 0;
-		while ((light = (t_light *)vec_get(&scene->lights, j++)))
-		{
-			//		get shadow ray direction
-			shadow_ray->dir = vec3_subtract(light->pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
-			vec3_normalize(&shadow_ray->dir);
-			shadow_ray->pos = vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect));
-			//		get shading value
-			vec3_multiply(primary_ray->dir, primary_ray->intersect);
-			t_vec3	normal = vec3_subtract(nearest->pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
-			vec3_normalize(&normal);
-			shading = fabs(vec3_dot(normal, shadow_ray->dir));
-			//		for all objects in scene
-			SDL_SetRenderDrawColor(scene->renderer, nearest->colour.r * shading, nearest->colour.g * shading, nearest->colour.b * shading, nearest->colour.a);
-			i = 0;
-			while (i < (int)scene->spheres.length)
-			{
-				if (sph_intersect(shadow_ray, vec_get(&scene->spheres, i)))
-					SDL_SetRenderDrawColor(scene->renderer, 0, 0, 0, 255);
-				i++;
-			}
-		}
-		return (1);
-	}
-	return (0);
-}
-
-static int	render_planes(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ray)
-{
-	int		i;
-	double	distance;
-	double	shading;
-	t_plane	*nearest;
-
-	(void)shadow_ray;
-	distance = INFINITY;
-	nearest = NULL;
 	i = 0;
 	while (i < (int)scene->objects.length)
 	{
-		if (vec_get(&scene->objects, i))
-		if (pln_intersect(primary_ray, vec_get(&scene->planes, i)))
+		generic = (t_generic *)vec_get(&scene->objects, i);
+		if (generic->type != LIGHT)
 		{
-			if (primary_ray->intersect < distance)
+			if (generic->intersect(primary_ray, (t_object *)vec_get(&scene->objects, i)))
 			{
-				nearest = vec_get(&scene->planes, i);
-				distance = primary_ray->intersect;
+				if (primary_ray->intersect < distance)
+				{
+					nearest = (t_object *)vec_get(&scene->objects, i);
+					distance = primary_ray->intersect;
+				}
 			}
 		}
 		i++;
 	}
-	SDL_SetRenderDrawColor(scene->renderer, 0, 0, 0, 255);
-	if (nearest)
-	{
-			shading = vec3_dot(nearest->normal, primary_ray->dir);
-			SDL_SetRenderDrawColor(scene->renderer, nearest->colour.r * shading, nearest->colour.g * shading, nearest->colour.b * shading, nearest->colour.a);
-		return (1);
-	}
-	return (0);
+	if (distance < INFINITY)
+		return (nearest);
+	return (NULL);
 }
 
-void		render_scene(t_scene *scene, t_window *window)
+
+static void		render_objects(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ray)
+{
+	int			i;
+	int			j;
+	double		shading;
+	t_generic	*generic;
+	t_object	*light;
+	t_object	*nearest;
+	SDL_Colour	colour;
+
+	i = 0;
+	nearest = get_nearest(scene, primary_ray);
+	if (nearest)
+	{
+		i = 0;
+		while (i < (int)scene->objects.length)
+		{
+			generic = (t_generic *)vec_get(&scene->objects, i);
+			if (generic->type == LIGHT)
+			{
+				light = (t_object *)vec_get(&scene->objects, i);
+				shadow_ray->dir = vec3_subtract(light->light.generic.pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
+				// shadow_ray->dir = vec3_subtract(scene->camera.pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
+				vec3_normalize(&shadow_ray->dir);
+				shadow_ray->pos = vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect * (1 + 1e-6)));
+				shading = fabs(vec3_dot(nearest->generic.normal, shadow_ray->dir));
+				j = 0;
+				colour = (SDL_Colour){nearest->generic.colour.r * shading, nearest->generic.colour.g * shading, nearest->generic.colour.b * shading, 255};
+				while (j < (int)scene->objects.length)
+				{
+					generic = (t_generic *)vec_get(&scene->objects, j);
+					if (generic->type != LIGHT)
+					{
+						if (generic->intersect(shadow_ray, vec_get(&scene->objects, j)))
+							colour = (SDL_Colour){0, 0, 0, 255}; 
+					}
+					j++;
+				}
+			}
+			i++;
+		}
+	}
+	SDL_SetRenderDrawColor(scene->renderer, colour.r, colour.g, colour.b, 255);
+}
+
+void			render_scene(t_scene *scene, t_window *window)
 {
 	int		x;
 	int		y;
-	int		hit;
 	t_ray	primary_ray;
 	t_ray	shadow_ray;
 
@@ -123,12 +108,9 @@ void		render_scene(t_scene *scene, t_window *window)
 		x = 0;
 		while (x < window->width)
 		{
-			hit = 0;
 			set_ray(x, y, &scene->camera, &primary_ray);
-			hit = render_planes(scene, &primary_ray, &shadow_ray);
-			hit = render_spheres(scene, &primary_ray, &shadow_ray);
-			if (hit)
-				SDL_RenderDrawPoint(scene->renderer, x, y);
+			render_objects(scene, &primary_ray, &shadow_ray);
+			SDL_RenderDrawPoint(scene->renderer, x, y);
 			x++;
 		}
 		y++;

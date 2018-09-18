@@ -6,14 +6,12 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 16:50:32 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/10 15:28:57 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/12 16:12:34 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "window.h"
-#include "input.h"
-#include "ray.h"
+#include "model.h"
+#include "controller.h"
 #include "read_scene.h"
 
 #include "SDL.h"
@@ -44,6 +42,7 @@ t_window	*init_window(void)
 t_scene		*init_scene(t_window *window, char *path)
 {
 	int			i;
+	t_generic	*g;
 	t_scene		*scene;
 	t_sphere	*sphere;
 
@@ -55,8 +54,16 @@ t_scene		*init_scene(t_window *window, char *path)
 	scene->camera.inverse_width = 1.0 / window->width;
 	scene->camera.inverse_height = 1.0 / window->height;
 	i = 0;
-	while ((sphere = (t_sphere *)vec_get(&scene->objects, i++)))
-		sphere->radius2 = sphere->radius * sphere->radius;
+	while (i < (int)scene->objects.length)
+	{
+		g = (t_generic *)vec_get(&scene->objects, i);
+		if (g->type == SPHERE)
+		{
+			sphere = (t_sphere *)vec_get(&scene->objects, i);
+			sphere->radius2 = sphere->radius * sphere->radius;
+		}
+		i++;
+	}
 	scene->renderer = SDL_CreateRenderer(window->window, -1, 0);
 	return (scene);
 }

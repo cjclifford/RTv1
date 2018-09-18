@@ -6,12 +6,12 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 18:09:26 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/05 13:54:17 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/12 16:12:57 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "input.h"
-#include "scene.h"
+#include "controller.h"
+#include "model.h"
 
 # define SPEED 1
 

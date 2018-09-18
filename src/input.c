@@ -6,11 +6,11 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:27:14 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/08/30 12:27:07 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/12 16:12:46 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "input.h"
+#include "controller.h"
 #include "SDL.h"
 
 int	handle_input(t_key *keys)

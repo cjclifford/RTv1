@@ -6,14 +6,13 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 17:51:52 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/04 13:35:49 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/12 16:53:58 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "window.h"
+#include "model.h"
 #include "init.h"
-#include "input.h"
+#include "controller.h"
 
 #include "SDL.h"
 
