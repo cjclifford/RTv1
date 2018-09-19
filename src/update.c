@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 18:09:26 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/12 16:12:57 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/19 15:01:31 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "model.h"
 
 # define SPEED 1
+# define ROTSPEED 0.1
 
 void	update_scene(t_scene *scene, t_key *keys)
 {
