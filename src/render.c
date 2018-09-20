@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:37:58 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/19 16:34:25 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:41:04 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static void		render_objects(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ra
 			generic = (t_generic *)vec_get(&scene->objects, i);
 			if (generic->type == LIGHT)
 			{
-				light_point_distance = vec3_length(vec3_subtract(light->generic.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
 				light = (t_object *)vec_get(&scene->objects, i);
+				light_point_distance = vec3_length(vec3_subtract(light->generic.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
 				shadow_ray->dir = vec3_subtract(light->light.generic.pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
 				// shadow_ray->dir = vec3_subtract(scene->camera.pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
 				vec3_normalize(&shadow_ray->dir);
@@ -80,7 +80,7 @@ static void		render_objects(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ra
 					{
 						if (generic->intersect(shadow_ray, vec_get(&scene->objects, j)))
 						{
-							if (shadow_ray->intersect < light_point_distance)
+							if (shadow_ray->intersect <= light_point_distance)
 								colour = (SDL_Colour){0, 0, 0, 255};
 						}
 					}
