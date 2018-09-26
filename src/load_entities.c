@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 15:12:42 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/12 18:17:52 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/26 15:22:28 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	read_camera(int fd, t_scene *scene)
 		camera.dir.x = ft_atoi(list[0]);
 		camera.dir.y = ft_atoi(list[1]);
 		camera.dir.z = ft_atoi(list[2]);
+		vec3_normalize(&camera.dir);
 		free(list);
 	}
 	free(line);
@@ -60,7 +61,10 @@ void	read_sphere(int fd, t_scene *scene)
 	}
 	free(line);
 	if (get_next_line(fd, &line) > 0)
+	{
 		sphere.radius = ft_atoi(line);
+		sphere.radius2 = sphere.radius * sphere.radius;
+	}
 	free(line);
 	if (get_next_line(fd, &line) > 0)
 	{
@@ -117,6 +121,7 @@ void	read_plane(int fd, t_scene *scene)
 		plane.generic.normal.x = ft_atoi(list[0]);
 		plane.generic.normal.y = ft_atoi(list[1]);
 		plane.generic.normal.z = ft_atoi(list[2]);
+		vec3_normalize(&plane.generic.normal);
 		free(list);
 	}
 	free(line);
@@ -133,4 +138,49 @@ void	read_plane(int fd, t_scene *scene)
 	free(line);
 	plane.generic.intersect = &pln_intersect;
 	vec_append(&scene->objects, &plane);
+}
+
+void	read_cylinder(int fd, t_scene *scene)
+{
+	char		*line;
+	char		**list;
+	t_cylinder	cylinder;
+
+	cylinder.generic.type = CYLINDER;
+	if (get_next_line(fd, &line) > 0)
+	{
+		list = ft_strsplit(line, ' ');
+		cylinder.generic.pos.x = ft_atoi(list[0]);
+		cylinder.generic.pos.y = ft_atoi(list[1]);
+		cylinder.generic.pos.z = ft_atoi(list[2]);
+		free(list);
+	}
+	free(line);
+	// if (get_next_line(fd, &line) > 0)
+	// {
+	// 	list = ft_strsplit(line, ' ');
+	// 	cylinder.dir.x = ft_atoi(list[0]);
+	// 	cylinder.dir.y = ft_atoi(list[1]);
+	// 	cylinder.dir.z = ft_atoi(list[2]);
+	// 	free(list);
+	// }
+	// free(line);
+	if (get_next_line(fd, &line) > 0)
+	{
+		cylinder.radius = ft_atoi(line);
+		cylinder.radius2 = cylinder.radius * cylinder.radius;
+	}
+	free(line);
+	if (get_next_line(fd, &line) > 0)
+	{
+		list = ft_strsplit(line, ' ');
+		cylinder.generic.colour.r = ft_atoi(list[0]);
+		cylinder.generic.colour.g = ft_atoi(list[1]);
+		cylinder.generic.colour.b = ft_atoi(list[2]);
+		cylinder.generic.colour.a = ft_atoi(list[3]);
+		free(list);
+	}
+	free(line);
+	cylinder.generic.intersect = &cyl_intersect;
+	vec_append(&scene->objects, &cylinder);
 }

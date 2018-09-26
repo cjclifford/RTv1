@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 11:08:02 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/12 16:06:34 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/24 14:29:22 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ void		read_scene(char *path, t_scene *scene)
 			read_light(fd, scene);
 		else if (ft_strstr(line, "PLANE"))
 			read_plane(fd, scene);
+		else if (ft_strstr(line, "CYLINDER"))
+			read_cylinder(fd, scene);
 	}
 }

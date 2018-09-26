@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 16:50:32 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/12 16:12:34 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/25 09:10:51 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ t_window	*init_window(void)
 
 t_scene		*init_scene(t_window *window, char *path)
 {
-	int			i;
-	t_generic	*g;
 	t_scene		*scene;
-	t_sphere	*sphere;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	ft_bzero(scene, sizeof(t_scene));
@@ -53,17 +50,6 @@ t_scene		*init_scene(t_window *window, char *path)
 	scene->camera.angle = fabs(tan(FOV * scene->camera.aspect_ratio * M_PI / 180));
 	scene->camera.inverse_width = 1.0 / window->width;
 	scene->camera.inverse_height = 1.0 / window->height;
-	i = 0;
-	while (i < (int)scene->objects.length)
-	{
-		g = (t_generic *)vec_get(&scene->objects, i);
-		if (g->type == SPHERE)
-		{
-			sphere = (t_sphere *)vec_get(&scene->objects, i);
-			sphere->radius2 = sphere->radius * sphere->radius;
-		}
-		i++;
-	}
 	scene->renderer = SDL_CreateRenderer(window->window, -1, 0);
 	return (scene);
 }

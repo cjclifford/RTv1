@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:37:58 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/20 10:41:04 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/09/26 16:25:15 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 // TODO:
 //	Cones
-//	Planes
-//	Cylinders
 
 static t_object	*get_nearest(t_scene *scene, t_ray *primary_ray)
 {
@@ -35,7 +33,7 @@ static t_object	*get_nearest(t_scene *scene, t_ray *primary_ray)
 		}
 		i++;
 	}
-	if (primary_ray->intersect < INFINITY)
+	if (primary_ray->intersect < INFINITY && primary_ray->intersect > 0)
 		return (nearest);
 	return (NULL);
 }
@@ -65,9 +63,8 @@ static void		render_objects(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ra
 			if (generic->type == LIGHT)
 			{
 				light = (t_object *)vec_get(&scene->objects, i);
-				light_point_distance = vec3_length(vec3_subtract(light->generic.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
 				shadow_ray->dir = vec3_subtract(light->light.generic.pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
-				// shadow_ray->dir = vec3_subtract(scene->camera.pos, vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect)));
+				light_point_distance = vec3_length(shadow_ray->dir);
 				vec3_normalize(&shadow_ray->dir);
 				shadow_ray->pos = vec3_add(scene->camera.pos, vec3_multiply(primary_ray->dir, primary_ray->intersect * (1 + 1e-6)));
 				shading = fabs(vec3_dot(nearest->generic.normal, shadow_ray->dir));
@@ -76,7 +73,7 @@ static void		render_objects(t_scene *scene, t_ray *primary_ray, t_ray *shadow_ra
 				while (j < (int)scene->objects.length)
 				{
 					generic = (t_generic *)vec_get(&scene->objects, j);
-					if (generic->type != LIGHT)
+					if (generic->type != LIGHT && generic != (t_generic *)nearest)
 					{
 						if (generic->intersect(shadow_ray, vec_get(&scene->objects, j)))
 						{
