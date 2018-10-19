@@ -6,7 +6,7 @@
 /*   By: ccliffor <ccliffor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 15:45:07 by ccliffor          #+#    #+#             */
-/*   Updated: 2018/09/26 16:26:52 by ccliffor         ###   ########.fr       */
+/*   Updated: 2018/10/01 07:43:50 by ccliffor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,23 @@ int		cyl_intersect(t_ray *ray, t_object *object)
 
 	cylinder = &object->cylinder;
 	t_vec3	oc;
-	double	a;
-	double	b;
-	double	c;
-	double	h;
+	// double	a;
+	// double	b;
+	// double	c;
+	// double	h;
 
 	oc = vec3_subtract(ray->pos, cylinder->generic.pos);
-	a = ray->dir.x * ray->dir.x + ray->dir.z * ray->dir.z;
-	b = (ray->dir.x * oc.x + ray->dir.z * oc.z);
-	c = oc.x * oc.x + oc.z * oc.z - cylinder->radius2;
-	h = b * b - a * c;
-	if (h < 0.0001)
-		return (0);
-	ray->intersect = (-b - sqrt(h)) / a;
-	if (ray->intersect < 0)
-		return (0);
-	cylinder->generic.normal = vec3_subtract(ray->pos, cylinder->generic.pos);
-	vec3_normalize(&cylinder->generic.normal);
+	// a = ray->dir.x * ray->dir.x + ray->dir.z * ray->dir.z; 
+	// b = (ray->dir.x * oc.x + ray->dir.z * oc.z);
+	// c = oc.x * oc.x + oc.z * oc.z - cylinder->radius2;
+	// h = b * b - a * c;
+	// if (h < 0.0001)
+	// 	return (0);
+	// ray->intersect = (-b - sqrt(h)) / a;
+	// if (ray->intersect < 0)
+	// 	return (0);
+	// cylinder->generic.normal = vec3_subtract(cylinder->generic.pos, vec3_multiply(ray->dir, ray->intersect));
+	// vec3_normalize(&cylinder->generic.normal);
 	return (1);
 }
 
